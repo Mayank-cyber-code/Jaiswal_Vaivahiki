@@ -297,14 +297,14 @@ function isValidName(value){
 ============================================================
 */
 
+
 function isValidMobile(value){
 
-    const pattern = /^\+\d{1,3}\s\d{4,15}$/;
+    const pattern = /^\+\d{1,3}\s?\d{10}$/;
 
     return pattern.test(value.trim());
 
 }
-
 
 
 /*
