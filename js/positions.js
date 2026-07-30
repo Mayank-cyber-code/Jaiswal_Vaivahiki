@@ -5,8 +5,8 @@ const POSITIONS = {
     ==============================*/
 
     previewName:           { left: 235, top: 292, width: 300, fontSize: 22, fontWeight: 650 },
-    previewDOB:            { left: 235, top: 337, width: 300, fontSize: 19, fontWeight: 600 },
-    previewTime:           { left: 235, top: 386, width: 300, fontSize: 19, fontWeight: 600 },
+    previewDOB:            { left: 235, top: 337, width: 300, fontSize: 19, fontWeight: 625 },
+    previewTime:           { left: 235, top: 386, width: 300, fontSize: 19, fontWeight: 625 },
     previewPlace:          { left: 235, top: 438, width: 300, fontSize: 19, fontWeight: 600 },
     previewHeight:         { left: 235, top: 485, width: 300, fontSize: 19, fontWeight: 600 },
     previewComplexion:     { left: 235, top: 535, width: 300, fontSize: 19, fontWeight: 600 },
