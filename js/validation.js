@@ -1292,40 +1292,17 @@ function validateEducation(){
     }
 
 
-    /*
-    ============================================================
-                OCCUPATION
-    ============================================================
-    */
-
-    if(!isRequired("occupation")){
-
-        showError(
-            "occupation",
-            "Occupation is required."
-        );
-
-        valid = false;
-
-    }
-
-    else{
-
-        showSuccess("occupation");
-
-    }
-
 
 
 
 
     /*
     ============================================================
-                OCCUPATION DETAILS
+                    OCCUPATION (OPTIONAL)
     ============================================================
     */
 
-
+    clearError("occupation");
 
     return valid;
 
@@ -1600,26 +1577,11 @@ function validatePartner(){
 
     /*
     ============================================================
-                    PREFERRED PROFESSION
+            PREFERRED PROFESSION (OPTIONAL)
     ============================================================
     */
 
-    if(!isRequired("preferredProfession")){
-
-        showError(
-            "preferredProfession",
-            "Preferred Profession is required."
-        );
-
-        valid = false;
-
-    }
-
-    else{
-
-        showSuccess("preferredProfession");
-
-    }
+    clearError("preferredProfession");
 
 
 
