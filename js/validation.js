@@ -297,7 +297,6 @@ function isValidName(value){
 ============================================================
 */
 
-
 function isValidMobile(value){
 
     const pattern = /^\+\d{1,3}\s?\d{10}$/;
@@ -307,25 +306,8 @@ function isValidMobile(value){
 }
 
 
-/*
-============================================================
-                VALIDATE ANNUAL INCOME
-============================================================
-*/
 
-function isValidIncome(value){
 
-    if(value.trim() === ""){
-
-        return false;
-
-    }
-
-    const income = Number(value);
-
-    return !isNaN(income) && income > 0;
-
-}
 
 
 
@@ -1334,42 +1316,6 @@ function validateEducation(){
     }
 
 
-
-    /*
-    ============================================================
-                ANNUAL INCOME
-    ============================================================
-    */
-
-    const annualIncome = getValue("annualIncome");
-
-    if(isEmpty(annualIncome)){
-
-        showError(
-            "annualIncome",
-            "Annual Income is required."
-        );
-
-        valid = false;
-
-    }
-
-    else if(!isValidIncome(annualIncome)){
-
-        showError(
-            "annualIncome",
-            "Enter a valid annual income."
-        );
-
-        valid = false;
-
-    }
-
-    else{
-
-        showSuccess("annualIncome");
-
-    }
 
 
 
