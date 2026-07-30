@@ -1,0 +1,2513 @@
+/*==========================================================
+                    VALIDATION.JS
+        STEP 1 - MODULE SETUP & CONFIGURATION
+==========================================================*/
+
+/*
+============================================================
+                VALIDATION CONFIGURATION
+============================================================
+*/
+
+const VALIDATION = {
+
+    debug : true,
+
+    mobileLength : 10,
+
+    minimumIncome : 1,
+
+    maximumImageSize : 5 * 1024 * 1024,
+
+    supportedImageTypes : [
+
+        "image/jpeg",
+
+        "image/jpg",
+
+        "image/png",
+
+        "image/webp"
+
+    ]
+
+};
+
+
+
+/*
+============================================================
+                VALIDATION STATE
+============================================================
+*/
+
+const VALIDATION_STATE = {
+
+    initialized : false,
+
+    currentStepValid : false,
+
+    completeFormValid : false
+
+};
+
+
+
+/*
+============================================================
+                ERROR MESSAGES
+============================================================
+*/
+
+const VALIDATION_MESSAGES = {
+
+    required :
+
+        "This field is required.",
+
+    name :
+
+        "Only alphabets and spaces are allowed.",
+
+    mobile :
+
+        "Enter a valid 10-digit mobile number.",
+
+    income :
+
+        "Enter a valid annual income.",
+
+    date :
+
+        "Please select a valid date.",
+
+    futureDate :
+
+        "Future date is not allowed.",
+
+    number :
+
+        "Only numeric values are allowed.",
+
+    photo :
+
+        "Please upload a profile photo."
+
+};
+
+
+
+/*
+============================================================
+                INITIALIZATION
+============================================================
+*/
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        initializeValidation();
+
+    }
+
+);
+
+
+
+/*
+============================================================
+                INITIALIZE MODULE
+============================================================
+*/
+
+function initializeValidation(){
+
+    VALIDATION_STATE.initialized = true;
+
+    validationLog(
+
+        "Validation Module Initialized"
+
+    );
+
+}
+
+
+
+/*
+============================================================
+                DEBUG LOGGER
+============================================================
+*/
+
+function validationLog(
+
+    message,
+
+    data = ""
+
+){
+
+    if(!VALIDATION.debug){
+
+        return;
+
+    }
+
+    console.group(
+
+        "[Validation]"
+
+    );
+
+    console.log(
+
+        message
+
+    );
+
+    if(data !== ""){
+
+        console.log(
+
+            data
+
+        );
+
+    }
+
+    console.groupEnd();
+
+}
+
+
+
+/*
+============================================================
+                HELPER FUNCTIONS
+============================================================
+*/
+
+
+/*
+============================================================
+                GET ELEMENT
+============================================================
+*/
+
+function getField(id){
+
+    return document.getElementById(id);
+
+}
+
+
+
+/*
+============================================================
+                GET VALUE
+============================================================
+*/
+
+function getValue(id){
+
+    const element = getField(id);
+
+    if(!element){
+
+        return "";
+
+    }
+
+    return element.value.trim();
+
+}
+
+
+
+/*
+============================================================
+                CHECK EMPTY
+============================================================
+*/
+
+function isEmpty(value){
+
+    return value.trim() === "";
+
+}
+
+
+
+/*
+============================================================
+                SHOW ALERT
+============================================================
+*/
+
+function validationMessage(message){
+
+    alert(message);
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTIONS
+============================================================
+*/
+
+window.getValue = getValue;
+
+window.getField = getField;
+
+window.isEmpty = isEmpty;
+
+
+
+
+/*==========================================================
+        STEP 2 - COMMON VALIDATION FUNCTIONS
+==========================================================*/
+
+/*
+============================================================
+                VALIDATE NAME
+============================================================
+*/
+
+function isValidName(value){
+
+    const pattern = /^[A-Za-z ]+$/;
+
+    return pattern.test(value.trim());
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE MOBILE NUMBER
+============================================================
+*/
+
+function isValidMobile(value){
+
+    const pattern = /^\+\d{1,3}\s\d{4,15}$/;
+
+    return pattern.test(value.trim());
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE ANNUAL INCOME
+============================================================
+*/
+
+function isValidIncome(value){
+
+    if(value.trim() === ""){
+
+        return false;
+
+    }
+
+    const income = Number(value);
+
+    return !isNaN(income) && income > 0;
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE NUMERIC VALUE
+============================================================
+*/
+
+function isValidNumber(value){
+
+    const pattern = /^[0-9]+$/;
+
+    return pattern.test(value.trim());
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE DATE
+============================================================
+*/
+
+function isValidDate(value){
+
+    if(value.trim() === ""){
+
+        return false;
+
+    }
+
+    const selectedDate = new Date(value);
+
+    const today = new Date();
+
+    today.setHours(0,0,0,0);
+
+    return selectedDate <= today;
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE HEIGHT
+============================================================
+*/
+
+function isValidHeight(value){
+
+    return value.trim() !== "";
+
+}
+
+/*
+============================================================
+            VALIDATE MAX LENGTH
+============================================================
+*/
+
+function isValidLength(value, maxLength){
+
+    return value.trim().length <= maxLength;
+
+}
+
+
+/*
+============================================================
+                VALIDATE PHOTO
+============================================================
+*/
+
+function isValidPhoto(){
+
+    return (
+
+        biodata.photos &&
+
+        biodata.photos.profilePhoto
+
+    );
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE IMAGE TYPE
+============================================================
+*/
+
+function isValidImageType(file){
+
+    if(!file){
+
+        return false;
+
+    }
+
+    return VALIDATION.supportedImageTypes.includes(
+
+        file.type
+
+    );
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE IMAGE SIZE
+============================================================
+*/
+
+function isValidImageSize(file){
+
+    if(!file){
+
+        return false;
+
+    }
+
+    return file.size <= VALIDATION.maximumImageSize;
+
+}
+
+
+
+/*
+============================================================
+                VALIDATE REQUIRED FIELD
+============================================================
+*/
+
+function isRequired(id){
+
+    return !isEmpty(
+
+        getValue(id)
+
+    );
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTIONS
+============================================================
+*/
+
+window.isValidName = isValidName;
+
+window.isValidMobile = isValidMobile;
+
+window.isValidIncome = isValidIncome;
+
+window.isValidNumber = isValidNumber;
+
+window.isValidDate = isValidDate;
+
+window.isValidHeight = isValidHeight;
+
+window.isValidPhoto = isValidPhoto;
+
+window.isRequired = isRequired;
+
+
+
+
+
+
+
+
+
+
+function initializeCharacterCounter(id, maxLength){
+
+    const field = document.getElementById(id);
+
+    const counter = document.getElementById(id + "Counter");
+
+    if(!field || !counter){
+
+        return;
+
+    }
+
+    function updateCounter(){
+
+        const remaining = maxLength - field.value.length;
+
+        counter.textContent = remaining + " characters remaining";
+
+        if(remaining <= 10){
+
+            counter.classList.remove("text-muted");
+
+            counter.classList.add("text-danger");
+
+        }
+
+        else{
+
+            counter.classList.remove("text-danger");
+
+            counter.classList.add("text-muted");
+
+        }
+
+    }
+
+    field.addEventListener("input", updateCounter);
+
+    updateCounter();
+
+}
+
+
+
+
+
+
+
+
+/*==========================================================
+            STEP 3 - ERROR DISPLAY FUNCTIONS
+==========================================================*/
+
+/*
+============================================================
+                SHOW ERROR
+============================================================
+*/
+
+
+function showError(id, message){
+
+    const field = getField(id);
+
+    if(!field){
+        return;
+    }
+
+    console.log("showError", id, message);
+
+    field.classList.remove("is-valid");
+    field.classList.add("is-invalid");
+
+    let error = field.parentElement.querySelector(".invalid-feedback");
+
+    if(!error){
+
+        error = document.createElement("div");
+
+        error.className = "invalid-feedback";
+
+        field.insertAdjacentElement("afterend", error);
+
+    }
+
+    error.textContent = message;
+}
+
+/*
+============================================================
+                SHOW SUCCESS
+============================================================
+*/
+
+
+
+function showSuccess(id){
+
+    const field = getField(id);
+
+    if(!field){
+
+        return;
+
+    }
+
+    field.classList.remove("is-invalid");
+
+    field.classList.add("is-valid");
+
+    const error = field.parentElement.querySelector(".invalid-feedback");
+
+    if(error){
+
+        error.remove();
+
+    }
+
+}
+
+
+
+
+/*
+============================================================
+                CLEAR ERROR
+============================================================
+*/
+
+
+
+function clearError(id){
+
+    const field = getField(id);
+
+    if(!field){
+
+        return;
+
+    }
+
+    field.classList.remove("is-invalid");
+
+    field.classList.remove("is-valid");
+
+    const error = field.parentElement.querySelector(".invalid-feedback");
+
+    if(error){
+
+        error.remove();
+
+    }
+
+}
+
+
+
+
+/*
+============================================================
+                CLEAR ALL ERRORS
+============================================================
+*/
+
+function clearAllErrors(){
+
+    const fields = document.querySelectorAll(
+
+        "input, select, textarea"
+
+    );
+
+    fields.forEach(field => {
+
+        field.classList.remove("is-invalid");
+
+        field.classList.remove("is-valid");
+
+        const error = field.nextElementSibling;
+
+        if(
+
+            error &&
+
+            error.classList.contains("invalid-feedback")
+
+        ){
+
+            error.remove();
+
+        }
+
+    });
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTIONS
+============================================================
+*/
+
+window.showError = showError;
+
+window.showSuccess = showSuccess;
+
+window.clearError = clearError;
+
+window.clearAllErrors = clearAllErrors;
+
+
+
+
+
+
+
+
+/*==========================================================
+            STEP 4 - PERSONAL DETAILS VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE PERSONAL DETAILS
+============================================================
+*/
+
+function validatePersonal(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                    FULL NAME
+    ============================================================
+    */
+
+    const fullName = getValue("fullName");
+
+    if(isEmpty(fullName)){
+
+        showError(
+            "fullName",
+            "Full Name is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidName(fullName)){
+
+        showError(
+            "fullName",
+            "Only alphabets and spaces are allowed."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("fullName");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    DATE OF BIRTH
+    ============================================================
+    */
+
+    const dob = getValue("dob");
+
+    if(isEmpty(dob)){
+
+        showError(
+            "dob",
+            "Date of Birth is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidDate(dob)){
+
+        showError(
+            "dob",
+            "Future date is not allowed."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("dob");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    TIME OF BIRTH
+    ============================================================
+    */
+
+    if(!isRequired("birthHour")){
+
+        showError(
+            "birthHour",
+            "Hour is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("birthHour");
+
+    }
+
+
+
+    if(!isRequired("birthMinute")){
+
+        showError(
+            "birthMinute",
+            "Minute is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("birthMinute");
+
+    }
+
+
+
+    if(!isRequired("birthPeriod")){
+
+        showError(
+            "birthPeriod",
+            "Please select AM/PM."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("birthPeriod");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    PLACE OF BIRTH
+    ============================================================
+    */
+
+    if(!isRequired("placeOfBirth")){
+
+        showError(
+            "placeOfBirth",
+            "Place of Birth is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("placeOfBirth");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    HEIGHT
+    ============================================================
+    */
+
+    if(!isRequired("height")){
+
+        showError(
+            "height",
+            "Height is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("height");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    COMPLEXION
+    ============================================================
+    */
+
+    if(!isRequired("complexion")){
+
+        showError(
+            "complexion",
+            "Complexion is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("complexion");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    MARITAL STATUS
+    ============================================================
+    */
+
+    if(!isRequired("maritalStatus")){
+
+        showError(
+            "maritalStatus",
+            "Marital Status is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("maritalStatus");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    CASTE
+    ============================================================
+    */
+
+    if(!isRequired("caste")){
+
+        showError(
+            "caste",
+            "Caste is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("caste");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    SUB CASTE
+    ============================================================
+    */
+
+    if(!isRequired("subCaste")){
+
+        showError(
+            "subCaste",
+            "Sub Caste is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("subCaste");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    MANGLIK
+    ============================================================
+    */
+
+    if(!isRequired("manglik")){
+
+        showError(
+            "manglik",
+            "Manglik is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("manglik");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    MOTHER TONGUE
+    ============================================================
+    */
+
+    if(!isRequired("motherTongue")){
+
+        showError(
+            "motherTongue",
+            "Mother Tongue is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("motherTongue");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    DIET
+    ============================================================
+    */
+
+    if(!isRequired("diet")){
+
+        showError(
+            "diet",
+            "Diet is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("diet");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    HOBBIES
+    ============================================================
+    */
+
+    const hobbies = getValue("hobbies");
+
+    if(hobbies !== ""){
+
+        if(!isValidLength(hobbies, 30)){
+
+            showError(
+                "hobbies",
+                "Hobbies cannot exceed 30 characters."
+            );
+
+            valid = false;
+
+        }
+
+        else{
+
+            showSuccess("hobbies");
+
+        }
+
+    }
+
+    else{
+
+        clearError("hobbies");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    OTHER
+    ============================================================
+    */
+
+    const other = getValue("other");
+
+    if(other !== ""){
+
+        if(!isValidLength(other, 30)){
+
+            showError(
+                "other",
+                "Other details cannot exceed 30 characters."
+            );
+
+            valid = false;
+
+        }
+
+        else{
+
+            showSuccess("other");
+
+        }
+
+    }
+
+    else{
+
+        clearError("other");
+
+    }
+
+
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validatePersonal = validatePersonal;
+
+
+
+
+
+
+/*==========================================================
+            STEP 5 - EDUCATION DETAILS VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE EDUCATION DETAILS
+============================================================
+*/
+
+function validateEducation(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                HIGHEST QUALIFICATION
+    ============================================================
+    */
+
+    if(!isRequired("highestQualification")){
+
+        showError(
+            "highestQualification",
+            "Highest Qualification is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("highestQualification");
+
+    }
+
+
+
+    /*
+    ============================================================
+                COLLEGE / UNIVERSITY
+    ============================================================
+    */
+
+    if(!isRequired("college")){
+
+        showError(
+            "college",
+            "College / University is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("college");
+
+    }
+
+
+
+    /*
+    ============================================================
+                SCHOOL10
+    ============================================================
+    */
+
+    if(!isRequired("school10")){
+
+        showError(
+            "school10",
+            "School is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("school10");
+
+    }
+
+    /*
+    ============================================================
+                SCHOOL12
+    ============================================================
+    */
+
+    if(!isRequired("school12")){
+
+        showError(
+            "school12",
+            "School is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("school12");
+
+    }
+
+
+    /*
+    ============================================================
+                OCCUPATION
+    ============================================================
+    */
+
+    if(!isRequired("occupation")){
+
+        showError(
+            "occupation",
+            "Occupation is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("occupation");
+
+    }
+
+
+
+    /*
+    ============================================================
+                ANNUAL INCOME
+    ============================================================
+    */
+
+    const annualIncome = getValue("annualIncome");
+
+    if(isEmpty(annualIncome)){
+
+        showError(
+            "annualIncome",
+            "Annual Income is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidIncome(annualIncome)){
+
+        showError(
+            "annualIncome",
+            "Enter a valid annual income."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("annualIncome");
+
+    }
+
+
+
+    /*
+    ============================================================
+                OCCUPATION DETAILS
+    ============================================================
+    */
+
+
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validateEducation = validateEducation;
+
+
+
+
+/*==========================================================
+            STEP 6 - FAMILY DETAILS VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE FAMILY DETAILS
+============================================================
+*/
+
+function validateFamily(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                    FATHER'S NAME
+    ============================================================
+    */
+
+    const fatherName = getValue("fatherName");
+
+    if(isEmpty(fatherName)){
+
+        showError(
+            "fatherName",
+            "Father's Name is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidName(fatherName)){
+
+        showError(
+            "fatherName",
+            "Only alphabets and spaces are allowed."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("fatherName");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    FATHER'S OCCUPATION
+    ============================================================
+    */
+
+    if(!isRequired("fatherOccupation")){
+
+        showError(
+            "fatherOccupation",
+            "Father's Occupation is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("fatherOccupation");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    MOTHER'S NAME
+    ============================================================
+    */
+
+    const motherName = getValue("motherName");
+
+    if(isEmpty(motherName)){
+
+        showError(
+            "motherName",
+            "Mother's Name is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidName(motherName)){
+
+        showError(
+            "motherName",
+            "Only alphabets and spaces are allowed."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("motherName");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    MOTHER'S OCCUPATION
+    ============================================================
+    */
+
+    if(!isRequired("motherOccupation")){
+
+        showError(
+            "motherOccupation",
+            "Mother's Occupation is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("motherOccupation");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    BROTHERS
+    ============================================================
+    */
+
+    const brothers = getValue("brothers");
+
+    if(brothers !== ""){
+
+        if(!isValidNumber(brothers)){
+
+            showError(
+                "brothers",
+                "Only numeric values are allowed."
+            );
+
+            valid = false;
+
+        }
+
+        else{
+
+            showSuccess("brothers");
+
+        }
+
+    }
+
+    else{
+
+        clearError("brothers");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    SISTERS
+    ============================================================
+    */
+
+    const sisters = getValue("sisters");
+
+    if(sisters !== ""){
+
+        if(!isValidNumber(sisters)){
+
+            showError(
+                "sisters",
+                "Only numeric values are allowed."
+            );
+
+            valid = false;
+
+        }
+
+        else{
+
+            showSuccess("sisters");
+
+        }
+
+    }
+
+    else{
+
+        clearError("sisters");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    FAMILY DETAILS
+    ============================================================
+    */
+
+
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validateFamily = validateFamily;
+
+
+
+
+
+/*==========================================================
+            STEP 7 - PARTNER PREFERENCE VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE PARTNER PREFERENCE
+============================================================
+*/
+
+function validatePartner(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                    PREFERRED PROFESSION
+    ============================================================
+    */
+
+    if(!isRequired("preferredProfession")){
+
+        showError(
+            "preferredProfession",
+            "Preferred Profession is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("preferredProfession");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    PREFERRED LOCATION
+    ============================================================
+    */
+
+    if(!isRequired("preferredLocation")){
+
+        showError(
+            "preferredLocation",
+            "Preferred Location is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("preferredLocation");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    OTHER
+    ============================================================
+    */
+
+    const otherExpectations = getValue("otherExpectations");
+
+    if(otherExpectations !== ""){
+
+        if(!isValidLength(otherExpectations, 28)){
+
+            showError(
+                "otherExpectations",
+                "Other expectations cannot exceed 28 characters."
+            );
+
+            valid = false;
+
+        }
+
+        else{
+
+            showSuccess("otherExpectations");
+
+        }
+
+    }
+
+    else{
+
+        clearError("otherExpectations");
+
+    }
+
+
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validatePartner = validatePartner;
+
+
+
+
+/*==========================================================
+            STEP 8 - CONTACT DETAILS VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE CONTACT DETAILS
+============================================================
+*/
+
+function validateContact(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                    MOBILE NUMBER
+    ============================================================
+    */
+
+    const mobile = getValue("mobileNumber")
+
+    if(isEmpty(mobile)){
+
+        showError(
+            "mobileNumber",
+            "Mobile Number is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidMobile(mobile)){
+
+        showError(
+            "mobileNumber",
+            "Enter a valid mobile number (e.g. +91 98765432xx)."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("mobileNumber");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    RELATION
+    ============================================================
+    */
+
+    if(!isRequired("relation")){
+
+        showError(
+            "relation",
+            "Relation is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("relation");
+
+    }
+
+
+
+    // Current Address
+    if(!isRequired("currentAddress")){
+
+        showError(
+            "currentAddress",
+            "Current Address is required."
+        );
+
+        valid = false;
+
+    }
+    else{
+
+        showSuccess("currentAddress");
+
+    }
+
+
+    // Permanent Address
+    if(!isRequired("permanentAddress")){
+
+        showError(
+            "permanentAddress",
+            "Permanent Address is required."
+        );
+
+        valid = false;
+
+    }
+    else{
+
+        showSuccess("permanentAddress");
+
+    }
+
+
+    /*
+    ============================================================
+                    DISTRICT & STATE
+    ============================================================
+    */
+
+    if(!isRequired("distState")){
+
+        showError(
+            "distState",
+            "District & State is required."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("distState");
+
+    }
+
+
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validateContact = validateContact;
+
+
+
+
+
+
+
+/*==========================================================
+            STEP 9 - PHOTO VALIDATION
+==========================================================*/
+
+/*
+============================================================
+                VALIDATE PHOTO
+============================================================
+*/
+
+function validatePhoto(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                    PROFILE PHOTO
+    ============================================================
+    */
+
+    if(!biodata.photos.profilePhoto){
+
+        showError(
+            "profilePhotoUpload",
+            "Please upload a profile photo."
+        );
+
+        valid = false;
+
+    }
+    else{
+        showSuccess("profilePhotoUpload");
+    }
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validatePhoto = validatePhoto;
+
+
+
+
+
+
+/*==========================================================
+            STEP 10 - DECLARATION VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE DECLARATION
+============================================================
+*/
+
+function validateDeclaration(){
+
+    let valid = true;
+
+    /*
+    ============================================================
+                    SENDER NAME
+    ============================================================
+    */
+
+    const senderName = getValue("senderName");
+
+    if(isEmpty(senderName)){
+
+        showError(
+            "senderName",
+            "Sender's Name is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidName(senderName)){
+
+        showError(
+            "senderName",
+            "Only alphabets and spaces are allowed."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("senderName");
+
+    }
+
+
+
+    /*
+    ============================================================
+                    SENDER MOBILE
+    ============================================================
+    */
+
+    const senderMobile = getValue("senderMobile");
+
+    if(isEmpty(senderMobile)){
+
+        showError(
+            "senderMobile",
+            "Mobile Number is required."
+        );
+
+        valid = false;
+
+    }
+
+    else if(!isValidMobile(senderMobile)){
+
+        showError(
+            "senderMobile",
+            "Enter a valid mobile number (e.g. +91 98765432xx)."
+        );
+
+        valid = false;
+
+    }
+
+    else{
+
+        showSuccess("senderMobile");
+
+    }
+
+
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validateDeclaration = validateDeclaration;
+
+
+
+
+
+
+
+/*==========================================================
+            STEP 11 - CURRENT STEP VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE CURRENT STEP
+============================================================
+*/
+
+function validateCurrentStep(step){
+
+    switch(step){
+
+        case 1:
+
+            return validatePersonal();
+
+        case 2:
+
+            return validateEducation();
+
+        case 3:
+
+            return validateFamily();
+
+        case 4:
+
+            return validatePartner();
+
+        case 5:
+
+            return validateContact();
+
+        case 6:
+
+            return validatePhoto();
+
+        case 7:
+
+            return validateDeclaration();
+
+        case 8:
+
+            return true;
+
+        default:
+
+            return true;
+
+    }
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validateCurrentStep = validateCurrentStep;
+
+
+
+
+
+
+
+
+/*==========================================================
+            STEP 12 - COMPLETE FORM VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            VALIDATE COMPLETE FORM
+============================================================
+*/
+
+function validateCompleteForm(){
+
+    clearAllErrors();
+
+    let valid = true;
+
+    if(!validatePersonal()){
+
+        valid = false;
+
+    }
+
+    if(!validateEducation()){
+
+        valid = false;
+
+    }
+
+    if(!validateFamily()){
+
+        valid = false;
+
+    }
+
+    if(!validatePartner()){
+
+        valid = false;
+
+    }
+
+    if(!validateContact()){
+
+        valid = false;
+
+    }
+
+    if(!validatePhoto()){
+
+        valid = false;
+
+    }
+
+    if(!validateDeclaration()){
+
+        valid = false;
+
+    }
+
+    if(!valid){
+
+        validationMessage(
+
+            "Please complete all required fields before generating the PDF."
+
+        );
+
+    }
+
+    return valid;
+
+}
+
+
+
+/*
+============================================================
+                EXPORT FUNCTION
+============================================================
+*/
+
+window.validateCompleteForm = validateCompleteForm;
+
+
+
+
+
+
+
+
+
+
+/*==========================================================
+            STEP 13 - LIVE VALIDATION
+==========================================================*/
+
+/*
+============================================================
+            ATTACH LIVE VALIDATION
+============================================================
+*/
+
+function initializeLiveValidation(){
+
+    /*
+    ============================================================
+                    ALL INPUT FIELDS
+    ============================================================
+    */
+
+    const fields = document.querySelectorAll(
+
+        "input, select, textarea"
+
+    );
+
+
+
+    fields.forEach(field => {
+
+        /*
+        ========================================================
+                        KEYUP
+        ========================================================
+        */
+
+        field.addEventListener(
+
+            "keyup",
+
+            validateField
+
+        );
+
+
+
+        /*
+        ========================================================
+                        CHANGE
+        ========================================================
+        */
+
+        field.addEventListener(
+
+            "change",
+
+            validateField
+
+        );
+
+
+
+        /*
+        ========================================================
+                        BLUR
+        ========================================================
+        */
+
+        field.addEventListener(
+
+            "blur",
+
+            validateField
+
+        );
+
+    });
+
+}
+
+
+
+/*
+============================================================
+            VALIDATE SINGLE FIELD
+============================================================
+*/
+
+function validateField(event){
+
+    const id = event.target.id;
+
+    switch(id){
+
+        /*==========================
+                PERSONAL
+        ==========================*/
+
+        case "fullName":
+
+        case "dob":
+
+        case "birthHour":
+
+        case "birthMinute":
+
+        case "birthPeriod":
+
+        case "placeOfBirth":
+
+        case "height":
+
+        case "complexion":
+
+        case "maritalStatus":
+
+        case "caste":
+
+        case "subCaste":
+
+        case "manglik":
+
+        case "motherTongue":
+
+        case "diet":
+
+        case "hobbies":
+
+        case "other":
+
+            validatePersonal();
+
+            break;
+
+
+
+        /*==========================
+                EDUCATION
+        ==========================*/
+
+        case "highestQualification":
+
+        case "college":
+
+        case "school10":
+
+        case "school12":
+
+        case "occupation":
+
+        case "annualIncome":
+
+            validateEducation();
+
+            break;
+
+
+
+        /*==========================
+                FAMILY
+        ==========================*/
+
+        case "fatherName":
+
+        case "fatherOccupation":
+
+        case "motherName":
+
+        case "motherOccupation":
+
+        case "brothers":
+
+        case "sisters":
+
+            validateFamily();
+
+            break;
+
+
+
+        /*==========================
+                PARTNER
+        ==========================*/
+
+        case "preferredProfession":
+
+        case "preferredLocation":
+
+        case "otherExpectations":
+
+            validatePartner();
+
+            break;
+
+
+
+        /*==========================
+                CONTACT
+        ==========================*/
+
+        case "mobileNumber":
+
+        case "relation":
+
+        case "currentAddress":
+
+        case "permanentAddress":
+
+        case "distState":
+
+            validateContact();
+
+            break;
+
+
+
+        /*==========================
+                PHOTO
+        ==========================*/
+
+        case "profilePhotoUpload":
+
+            validatePhoto();
+
+            break;
+
+
+
+        /*==========================
+                DECLARATION
+        ==========================*/
+
+        case "senderName":
+
+        case "senderMobile":
+
+            validateDeclaration();
+
+            break;
+
+    }
+
+}
+
+
+
+/*
+============================================================
+            INITIALIZE LIVE VALIDATION
+============================================================
+*/
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function(){
+
+        initializeLiveValidation();
+
+        initializeCharacterCounter("hobbies", 30);
+
+        initializeCharacterCounter("other", 30);
+
+        initializeCharacterCounter("otherExpectations", 28);
+
+    }
+
+);
+
+
+
+
+
