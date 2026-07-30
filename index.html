@@ -1810,14 +1810,93 @@
 
                             <div class="col-md-6">
 
-                                <label for="timeOfBirth" class="form-label">
+                                <label class="form-label">
                                     Time Of Birth
                                 </label>
 
-                                <input
-                                    type="time"
-                                    id="timeOfBirth"
-                                    class="form-control">
+                                <div class="row">
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label">
+                                        Hour
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="birthHour">
+
+                                        <option value="">Hour</option>
+
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label">
+                                        Minute
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="birthMinute">
+
+                                        <option value="">Minute</option>
+
+                                        <option>00</option>
+                                        <option>05</option>
+                                        <option>10</option>
+                                        <option>15</option>
+                                        <option>20</option>
+                                        <option>25</option>
+                                        <option>30</option>
+                                        <option>35</option>
+                                        <option>40</option>
+                                        <option>45</option>
+                                        <option>50</option>
+                                        <option>55</option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <label class="form-label">
+                                        AM / PM
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="birthPeriod">
+
+                                        <option value="">AM / PM</option>
+
+                                        <option>AM</option>
+
+                                        <option>PM</option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
 
                             </div>
 
@@ -1995,7 +2074,7 @@
 
                                 <textarea
                                     id="hobbies"
-                                    maxlength="35"
+                                    maxlength="30"
                                     class="form-control"
                                     rows="3"
                                     placeholder="Enter hobbies"></textarea>
@@ -2003,7 +2082,7 @@
                                     id="hobbiesCounter"
                                     class="text-muted">
 
-                                    35 characters remaining
+                                    30 characters remaining
 
                                 </small>
 
@@ -2023,7 +2102,7 @@
 
                                 <textarea
                                     id="other"
-                                    maxlength="35"
+                                    maxlength="30"
                                     class="form-control"
                                     rows="3"
                                     placeholder="Enter other details"></textarea>
@@ -2031,7 +2110,7 @@
                                     id="otherCounter"
                                     class="text-muted">
 
-                                    35 characters remaining
+                                    30 characters remaining
 
                                 </small>
 
@@ -2440,7 +2519,7 @@
 
                                 <textarea
                                     id="otherExpectations"
-                                    maxlength="35"
+                                    maxlength="28"
                                     class="form-control"
                                     rows="5"
                                     placeholder="Enter any other expectations..."></textarea>
@@ -2448,7 +2527,7 @@
                                     id="otherExpectationsCounter"
                                     class="text-muted">
 
-                                    35 characters remaining
+                                    28 characters remaining
 
                                 </small>
 
@@ -2507,7 +2586,7 @@
                                     type="tel"
                                     id="mobileNumber"
                                     class="form-control"
-                                    placeholder="Enter contact number">
+                                    placeholder="+91 98765432xx">
 
                             </div>
 
@@ -2774,7 +2853,7 @@
                                     type="tel"
                                     id="senderMobile"
                                     class="form-control"
-                                    placeholder="Enter mobile number">
+                                    placeholder="+91 98765432xx">
 
                             </div>
 
@@ -3088,40 +3167,6 @@
 
                             <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
 
-                                <!-- Export Draft -->
-
-                                <button
-                                        type="button"
-                                        id="exportDraftBtn"
-                                        class="btn btn-outline-primary">
-
-                                    <i class="fa-solid fa-download me-2"></i>
-
-                                    Export Draft
-
-                                </button>
-
-                                <!-- Hidden File Input -->
-
-                                <input
-                                        type="file"
-                                        id="importDraftInput"
-                                        accept=".json"
-                                        class="d-none">
-
-                                <!-- Import Draft -->
-
-                                <button
-                                        type="button"
-                                        class="btn btn-outline-success"
-                                        onclick="document.getElementById('importDraftInput').click();">
-
-                                    <i class="fa-solid fa-upload me-2"></i>
-
-                                    Import Draft
-
-                                </button>
-
                                 <!-- Clear Draft -->
 
                                 <button
@@ -3151,28 +3196,6 @@
                                     <i class="fa-solid fa-file-pdf me-2"></i>
 
                                     Download PDF
-
-                                </button>
-
-                                <button
-                                        type="button"
-                                        id="printPdfBtn"
-                                        class="btn btn-outline-secondary btn-lg ms-3">
-
-                                    <i class="fa-solid fa-print me-2"></i>
-
-                                    Print
-
-                                </button>
-
-                                <button
-                                        type="button"
-                                        id="sharePdfBtn"
-                                        class="btn btn-success btn-lg ms-3">
-
-                                    <i class="fa-solid fa-share-nodes me-2"></i>
-
-                                    Share
 
                                 </button>
 
@@ -3418,6 +3441,10 @@
     </div>
 
 </div>
+
+
+
+
 
 <!-- ==========================================================
                     WEBSITE ENDS HERE
