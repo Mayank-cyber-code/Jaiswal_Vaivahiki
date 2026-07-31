@@ -233,9 +233,9 @@
 
     top:0;
 
-    width:1023px;
+    width:1024px;
 
-    height:1537px;
+    height:1536px;
 
     overflow:hidden;
 
@@ -251,17 +251,17 @@
 
     position:relative;
 
-    width:1023px;
+    width:1024px;
 
-    min-width:1023px;
+    min-width:1024px;
 
-    max-width:1023px;
+    max-width:1024px;
 
-    height:1537px;
+    height:1536px;
 
-    min-height:1537px;
+    min-height:1536px;
 
-    max-height:1537px;
+    max-height:1536px;
 
     overflow:hidden;
 
@@ -296,17 +296,17 @@
 
     top:0;
 
-    width:1023px;
+    width:1024px;
 
-    height:1537px;
+    height:1536px;
 
-    min-width:1023px;
+    min-width:1024px;
 
-    min-height:1537px;
+    min-height:1536px;
 
-    max-width:1023px;
+    max-width:1024px;
 
-    max-height:1537px;
+    max-height:1536px;
 
     object-fit:fill;
 
