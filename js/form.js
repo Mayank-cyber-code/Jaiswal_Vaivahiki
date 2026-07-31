@@ -602,7 +602,19 @@ function populateReview(){
 
     fillReviewSection(
         "reviewContact",
-        biodata.contact
+        {
+            mobileNumber: biodata.contact.mobileNumber,
+            relation: biodata.contact.relation
+        }
+    );
+
+    fillReviewSection(
+        "reviewAddress",
+        {
+            currentAddress: biodata.contact.currentAddress,
+            permanentAddress: biodata.contact.permanentAddress,
+            distState: biodata.contact.distState
+        }
     );
 
     fillReviewSection(
