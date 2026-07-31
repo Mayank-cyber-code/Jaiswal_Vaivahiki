@@ -299,15 +299,32 @@ function isValidName(value){
 
 function isValidMobile(value){
 
-    const pattern = /^\+\d{1,3}\s?\d{10}$/;
+    const pattern = /^\+\d{1,3}\s?\d{4,12}$/;
 
     return pattern.test(value.trim());
 
 }
 
 
+/*
+============================================================
+                VALIDATE ANNUAL INCOME
+============================================================
+*/
 
+function isValidIncome(value){
 
+    if(value.trim() === ""){
+
+        return false;
+
+    }
+
+    const income = Number(value);
+
+    return !isNaN(income) && income > 0;
+
+}
 
 
 
@@ -1292,17 +1309,32 @@ function validateEducation(){
     }
 
 
+    /*
+    ============================================================
+                OCCUPATION
+    ============================================================
+    */
 
+    clearError("occupation");
 
 
 
     /*
     ============================================================
-                    OCCUPATION (OPTIONAL)
+                ANNUAL INCOME
     ============================================================
     */
 
-    clearError("occupation");
+    clearError("annualIncome");
+
+
+    /*
+    ============================================================
+                OCCUPATION DETAILS
+    ============================================================
+    */
+
+
 
     return valid;
 
@@ -1577,7 +1609,7 @@ function validatePartner(){
 
     /*
     ============================================================
-            PREFERRED PROFESSION (OPTIONAL)
+                    PREFERRED PROFESSION
     ============================================================
     */
 
@@ -2397,6 +2429,7 @@ function validateField(event){
 ============================================================
 */
 
+
 document.addEventListener(
 
     "DOMContentLoaded",
@@ -2405,17 +2438,43 @@ document.addEventListener(
 
         initializeLiveValidation();
 
-        initializeCharacterCounter("hobbies", 30);
+        // Personal Details
+        initializeCharacterCounter("fullName", 20);
+        initializeCharacterCounter("placeOfBirth", 25);
+        initializeCharacterCounter("hobbies", 25);
+        initializeCharacterCounter("other", 25);
 
-        initializeCharacterCounter("other", 30);
+        // Education
+        initializeCharacterCounter("highestQualification", 25);
+        initializeCharacterCounter("college", 25);
+        initializeCharacterCounter("school10", 25);
+        initializeCharacterCounter("school12", 25);
+        initializeCharacterCounter("occupation", 25);
+        initializeCharacterCounter("annualIncome", 25);
 
-        initializeCharacterCounter("otherExpectations", 28);
+        // Family
+        initializeCharacterCounter("fatherName", 25);
+        initializeCharacterCounter("fatherOccupation", 25);
+        initializeCharacterCounter("motherName", 25);
+        initializeCharacterCounter("motherOccupation", 25);
+
+        // Partner Preference
+        initializeCharacterCounter("preferredProfession", 25);
+        initializeCharacterCounter("preferredLocation", 25);
+        initializeCharacterCounter("otherExpectations", 25);
+
+        // Contact Details
+        initializeCharacterCounter("relation", 25);
+        initializeCharacterCounter("currentAddress", 25);
+        initializeCharacterCounter("permanentAddress", 25);
+        initializeCharacterCounter("distState", 25);
+
+        // Declaration
+        initializeCharacterCounter("senderName", 20);
 
     }
 
 );
-
-
 
 
 
