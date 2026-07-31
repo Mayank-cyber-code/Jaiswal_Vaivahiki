@@ -594,6 +594,8 @@ function restoreSection(section){
 
             element.value = section[id];
 
+
+
         }
 
     }
