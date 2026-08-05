@@ -2186,3 +2186,48 @@ textarea.is-valid:focus{
 
 
 
+.contact-email{
+
+    color: inherit;
+
+    text-decoration: none;
+
+}
+
+.contact-email:hover{
+
+    color: #FFD700;
+
+    text-decoration: underline;
+
+}
+
+
+
+
+
+.contact-item{
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+.contact-email{
+
+    color: inherit;
+
+    text-decoration: none;
+
+}
+
+.contact-email:hover{
+
+    color: #FFD700;
+
+    text-decoration: underline;
+
+}
