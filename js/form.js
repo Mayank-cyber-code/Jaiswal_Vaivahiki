@@ -342,9 +342,9 @@ function saveEducationData(){
 
         college : getInputValue("college"),
 
-        school10 : getInputValue("school10"),
+        Board10th : getInputValue("Board10th"),
 
-        school12 : getInputValue("school12"),
+        Board12th : getInputValue("Board12th"),
 
         occupation : getInputValue("occupation"),
 
@@ -494,6 +494,8 @@ function saveContactData(){
 
 function saveDeclarationData(){
 
+    console.log(getInputValue("declaration"));
+
     biodata.declaration = {
 
         declaration : getInputValue("declaration"),
@@ -542,6 +544,8 @@ function savePersonalData(){
             + getInputValue("birthPeriod"),
 
         placeOfBirth : getInputValue("placeOfBirth"),
+
+        rashiGan : getInputValue("rashiGan"),
 
         height : getInputValue("height"),
 
