@@ -592,6 +592,10 @@ function restoreSection(section){
 
         ){
 
+            if(id === "declaration"){
+                continue;
+            }
+
             element.value = section[id];
 
 
