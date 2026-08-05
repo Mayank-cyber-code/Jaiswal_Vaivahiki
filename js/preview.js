@@ -20,6 +20,9 @@ function renderPreviewContainer() {
     document.getElementById("previewPlace").textContent =
         biodata.personal.placeOfBirth || "";
 
+    document.getElementById("previewRashiGan").textContent =
+        biodata.personal.rashiGan || "";
+
     document.getElementById("previewHeight").textContent =
         biodata.personal.height || "";
 
@@ -62,11 +65,11 @@ function renderPreviewContainer() {
     document.getElementById("previewCollege").textContent =
         biodata.education.college || "";
 
-    document.getElementById("previewSchool10").textContent =
-        biodata.education.school10 || "";
+    document.getElementById("previewBoard10th").textContent =
+        biodata.education.Board10th || "";
 
-    document.getElementById("previewSchool12").textContent =
-        biodata.education.school12 || "";
+    document.getElementById("previewBoard12th").textContent =
+        biodata.education.Board12th || "";
 
     document.getElementById("previewOccupation").textContent =
         biodata.education.occupation || "";
