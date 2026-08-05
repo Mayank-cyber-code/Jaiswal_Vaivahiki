@@ -291,19 +291,6 @@ function isValidName(value){
 
 
 
-/*
-============================================================
-                VALIDATE MOBILE NUMBER
-============================================================
-*/
-
-function isValidMobile(value){
-
-    const pattern = /^\+\d{1,3}\s?\d{4,12}$/;
-
-    return pattern.test(value.trim());
-
-}
 
 
 /*
@@ -485,8 +472,6 @@ function isRequired(id){
 
 window.isValidName = isValidName;
 
-window.isValidMobile = isValidMobile;
-
 window.isValidIncome = isValidIncome;
 
 window.isValidNumber = isValidNumber;
@@ -507,8 +492,7 @@ window.isRequired = isRequired;
 
 
 
-
-function initializeCharacterCounter(id, maxLength){
+function initializeCharacterCounter(id, maxLength, type = "characters"){
 
     const field = document.getElementById(id);
 
@@ -524,7 +508,7 @@ function initializeCharacterCounter(id, maxLength){
 
         const remaining = maxLength - field.value.length;
 
-        counter.textContent = remaining + " characters remaining";
+        counter.textContent = remaining + " " + type + " remaining";
 
         if(remaining <= 10){
 
@@ -533,7 +517,6 @@ function initializeCharacterCounter(id, maxLength){
             counter.classList.add("text-danger");
 
         }
-
         else{
 
             counter.classList.remove("text-danger");
@@ -549,7 +532,6 @@ function initializeCharacterCounter(id, maxLength){
     updateCounter();
 
 }
-
 
 
 
@@ -900,6 +882,28 @@ function validatePersonal(){
     else{
 
         showSuccess("placeOfBirth");
+
+    }
+
+    /*
+    ============================================================
+                    Rashi & Gan
+    ============================================================
+    */
+
+    if(!isRequired("rashiGan")){
+
+        showError(
+            "rashiGan",
+            "Rashi & Gan is required."
+        );
+
+        valid = false;
+
+    }
+    else{
+
+        showSuccess("rashiGan");
 
     }
 
@@ -1264,15 +1268,15 @@ function validateEducation(){
 
     /*
     ============================================================
-                SCHOOL10
+                10th Board
     ============================================================
     */
 
-    if(!isRequired("school10")){
+    if(!isRequired("Board10th")){
 
         showError(
-            "school10",
-            "School is required."
+            "Board10th",
+            "Board is required."
         );
 
         valid = false;
@@ -1281,21 +1285,21 @@ function validateEducation(){
 
     else{
 
-        showSuccess("school10");
+        showSuccess("Board10th");
 
     }
 
     /*
     ============================================================
-                SCHOOL12
+                12th Board
     ============================================================
     */
 
-    if(!isRequired("school12")){
+    if(!isRequired("Board12th")){
 
         showError(
-            "school12",
-            "School is required."
+            "Board12th",
+            "Board is required."
         );
 
         valid = false;
@@ -1304,7 +1308,7 @@ function validateEducation(){
 
     else{
 
-        showSuccess("school12");
+        showSuccess("Board12th");
 
     }
 
@@ -1706,6 +1710,7 @@ window.validatePartner = validatePartner;
 ============================================================
 */
 
+
 function validateContact(){
 
     let valid = true;
@@ -1716,7 +1721,7 @@ function validateContact(){
     ============================================================
     */
 
-    const mobile = getValue("mobileNumber")
+    const mobile = getValue("mobileNumber");
 
     if(isEmpty(mobile)){
 
@@ -1729,11 +1734,11 @@ function validateContact(){
 
     }
 
-    else if(!isValidMobile(mobile)){
+    else if(mobile.length > 20){
 
         showError(
             "mobileNumber",
-            "Enter a valid mobile number (e.g. +91 98765432xx)."
+            "Mobile Number cannot exceed 20 characters."
         );
 
         valid = false;
@@ -1745,6 +1750,7 @@ function validateContact(){
         showSuccess("mobileNumber");
 
     }
+
 
 
 
@@ -1965,24 +1971,27 @@ function validateDeclaration(){
     ============================================================
     */
 
+
+
+
     const senderMobile = getValue("senderMobile");
 
     if(isEmpty(senderMobile)){
 
         showError(
             "senderMobile",
-            "Mobile Number is required."
+            "Sender Mobile Number is required."
         );
 
         valid = false;
 
     }
 
-    else if(!isValidMobile(senderMobile)){
+    else if(senderMobile.length > 20){
 
         showError(
             "senderMobile",
-            "Enter a valid mobile number (e.g. +91 98765432xx)."
+            "Sender Mobile Number cannot exceed 20 characters."
         );
 
         valid = false;
@@ -2321,9 +2330,9 @@ function validateField(event){
 
         case "college":
 
-        case "school10":
+        case "Board10th":
 
-        case "school12":
+        case "Board12th":
 
         case "occupation":
 
@@ -2441,22 +2450,33 @@ document.addEventListener(
         // Personal Details
         initializeCharacterCounter("fullName", 20);
         initializeCharacterCounter("placeOfBirth", 25);
+        initializeCharacterCounter("rashiGan",25);
+        initializeCharacterCounter("height", 20);
+        initializeCharacterCounter("complexion", 25);
+        initializeCharacterCounter("caste", 25);
+        initializeCharacterCounter("subCaste", 25);
+        initializeCharacterCounter("motherTongue", 25);
         initializeCharacterCounter("hobbies", 25);
         initializeCharacterCounter("other", 25);
+
+
+        initializeCharacterCounter("relation", 25);
 
         // Education
         initializeCharacterCounter("highestQualification", 25);
         initializeCharacterCounter("college", 25);
-        initializeCharacterCounter("school10", 25);
-        initializeCharacterCounter("school12", 25);
+        initializeCharacterCounter("Board10th", 25);
+        initializeCharacterCounter("Board12th", 25);
         initializeCharacterCounter("occupation", 25);
         initializeCharacterCounter("annualIncome", 25);
 
         // Family
-        initializeCharacterCounter("fatherName", 25);
-        initializeCharacterCounter("fatherOccupation", 25);
-        initializeCharacterCounter("motherName", 25);
-        initializeCharacterCounter("motherOccupation", 25);
+        initializeCharacterCounter("fatherName", 20);
+        initializeCharacterCounter("fatherOccupation", 20);
+        initializeCharacterCounter("motherName", 20);
+        initializeCharacterCounter("motherOccupation", 20);
+        initializeCharacterCounter("brothers", 2, "digits");
+        initializeCharacterCounter("sisters", 2, "digits");
 
         // Partner Preference
         initializeCharacterCounter("preferredProfession", 25);
@@ -2470,7 +2490,7 @@ document.addEventListener(
         initializeCharacterCounter("distState", 25);
 
         // Declaration
-        initializeCharacterCounter("senderName", 20);
+        initializeCharacterCounter("senderName", 25);
 
     }
 
