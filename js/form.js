@@ -764,30 +764,35 @@ document.addEventListener("DOMContentLoaded", () => {
 ============================================================
 */
 
+
+
 function initializeCreateBiodataButton(){
 
-    const createButton = document.getElementById(
+    const heroButton =
+        document.getElementById("createBiodataBtn");
 
-        "createBiodataBtn"
+    const previewButton =
+        document.getElementById("createBiodataPreviewBtn");
 
-    );
+    if(heroButton){
 
-    if(!createButton){
-
-        return;
+        heroButton.addEventListener(
+            "click",
+            openBiodataForm
+        );
 
     }
 
-    createButton.addEventListener(
+    if(previewButton){
 
-        "click",
+        previewButton.addEventListener(
+            "click",
+            openBiodataForm
+        );
 
-        openBiodataForm
-
-    );
+    }
 
 }
-
 
 /*
 ============================================================
