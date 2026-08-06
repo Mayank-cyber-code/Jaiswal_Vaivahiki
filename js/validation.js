@@ -891,21 +891,7 @@ function validatePersonal(){
     ============================================================
     */
 
-    if(!isRequired("rashiGan")){
-
-        showError(
-            "rashiGan",
-            "Rashi & Gan is required."
-        );
-
-        valid = false;
-
-    }
-    else{
-
-        showSuccess("rashiGan");
-
-    }
+    clearError("rashiGan");
 
 
 
@@ -940,22 +926,7 @@ function validatePersonal(){
     ============================================================
     */
 
-    if(!isRequired("complexion")){
-
-        showError(
-            "complexion",
-            "Complexion is required."
-        );
-
-        valid = false;
-
-    }
-
-    else{
-
-        showSuccess("complexion");
-
-    }
+    clearError("complexion");
 
 
 
@@ -1015,22 +986,7 @@ function validatePersonal(){
     ============================================================
     */
 
-    if(!isRequired("subCaste")){
-
-        showError(
-            "subCaste",
-            "Sub Caste is required."
-        );
-
-        valid = false;
-
-    }
-
-    else{
-
-        showSuccess("subCaste");
-
-    }
+    clearError("subCaste");
 
 
 
@@ -1507,31 +1463,14 @@ function validateFamily(){
 
     if(brothers !== ""){
 
-        if(!isValidNumber(brothers)){
-
-            showError(
-                "brothers",
-                "Only numeric values are allowed."
-            );
-
-            valid = false;
-
-        }
-
-        else{
-
-            showSuccess("brothers");
-
-        }
+        showSuccess("brothers");
 
     }
-
     else{
 
         clearError("brothers");
 
     }
-
 
 
     /*
@@ -1544,25 +1483,9 @@ function validateFamily(){
 
     if(sisters !== ""){
 
-        if(!isValidNumber(sisters)){
-
-            showError(
-                "sisters",
-                "Only numeric values are allowed."
-            );
-
-            valid = false;
-
-        }
-
-        else{
-
-            showSuccess("sisters");
-
-        }
+        showSuccess("sisters");
 
     }
-
     else{
 
         clearError("sisters");
@@ -1627,22 +1550,7 @@ function validatePartner(){
     ============================================================
     */
 
-    if(!isRequired("preferredLocation")){
-
-        showError(
-            "preferredLocation",
-            "Preferred Location is required."
-        );
-
-        valid = false;
-
-    }
-
-    else{
-
-        showSuccess("preferredLocation");
-
-    }
+    clearError("preferredLocation");
 
 
 
@@ -1780,21 +1688,7 @@ function validateContact(){
 
 
     // Current Address
-    if(!isRequired("currentAddress")){
-
-        showError(
-            "currentAddress",
-            "Current Address is required."
-        );
-
-        valid = false;
-
-    }
-    else{
-
-        showSuccess("currentAddress");
-
-    }
+    clearError("currentAddress");
 
 
     // Permanent Address
@@ -2475,8 +2369,8 @@ document.addEventListener(
         initializeCharacterCounter("fatherOccupation", 20);
         initializeCharacterCounter("motherName", 20);
         initializeCharacterCounter("motherOccupation", 20);
-        initializeCharacterCounter("brothers", 2, "digits");
-        initializeCharacterCounter("sisters", 2, "digits");
+        initializeCharacterCounter("brothers", 20);
+        initializeCharacterCounter("sisters", 20);
 
         // Partner Preference
         initializeCharacterCounter("preferredProfession", 25);
